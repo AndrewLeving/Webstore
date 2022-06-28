@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <div id="welcome" v-if="pageNum==1">
+            <h1>Hello! Welcome to Fake Store!</h1>
+            <button @click="pageNum=2">Enter</button>
+        </div>
+        <div v-else-if="pageNum==2">
+            <div id="wrapper">
+                <navbar @checkout="pageNum=3" :checkingout="false"></navbar>
+                <main id="store">
+                    <div class="product-item" v-for="product in productList">
+                        <productitem :item="product" @add-item="addToCart(product)"
+                            @remove-item="removeFromCart(product.id)"></productItem>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <div id="checkout" v-else-if="pageNum==3">
+            <div id="wrapper">
+                <navbar @checkout="pageNum=3" :checkingout="true"></navbar>
+                <main id="cart-items">
+                    <div class="product-item" v-for="product in inCart">
+                        <cartitem :item="product" @remove-item="removeFromCart(product.id)"></cartItem>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <div id="purchased" v-else-if="pageNum==4">
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
