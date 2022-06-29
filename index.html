@@ -17,27 +17,28 @@
         </div>
         <div v-else-if="pageNum==2">
             <div id="wrapper">
-                <navbar @checkout="pageNum=3" :checkingout="false"></navbar>
+                <navbar @checkout="pageNum=3" @home="pageNum=1" @store="pageNum=2"></navbar>
                 <main id="store">
                     <div class="product-item" v-for="product in productList">
-                        <productitem :item="product" @add-item="addToCart(product)"
-                            @remove-item="removeFromCart(product.id)"></productItem>
+                        <productitem :item="product" :incart="product.inCart" @add-item="addToCart(product)"
+                            @remove-item="removeFromCart(product, product.id)"></productItem>
                     </div>
                 </main>
             </div>
         </div>
         <div id="checkout" v-else-if="pageNum==3">
             <div id="wrapper">
-                <navbar @checkout="pageNum=3" :checkingout="true"></navbar>
+                <navbar @checkout="pageNum=3" @home="pageNum=1" @store="pageNum=2"></navbar>
                 <main id="cart-items">
-                    <div class="product-item" v-for="product in inCart">
-                        <cartitem :item="product" @remove-item="removeFromCart(product.id)"></cartItem>
+                    <div v-for="product in inCart">
+                        <cartitem :item="product" @remove-item="removeFromCart(product, product.id)"></cartItem>
                     </div>
+                    <purchase :total="getTotal" @purchase="pageNum=4"></purchase>
                 </main>
             </div>
         </div>
         <div id="purchased" v-else-if="pageNum==4">
-
+            purchase screen
         </div>
     </div>
 
